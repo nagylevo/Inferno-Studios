@@ -1,38 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('mobile-menu');
     const navList = document.querySelector('.nav-list');
+    const body = document.body;
 
-    menuToggle.addEventListener('click', () => {
-        navList.classList.toggle('active');
-        menuToggle.classList.toggle('active');
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        toggleMenu();
     });
 
-    document.querySelectorAll('.nav-list li a').forEach(link => {
+    document.querySelectorAll('.nav-list a').forEach(link => {
         link.addEventListener('click', () => {
-            navList.classList.remove('active');
-            menuToggle.classList.remove('active');
+            closeMenu();
         });
     });
-});
 
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const closeBtn = document.querySelector('.close');
-const images = document.querySelectorAll('.fanart-image');
-
-images.forEach(image => {
-    image.addEventListener('click', () => {
-        lightbox.style.display = "flex";
-        lightboxImg.src = image.src;
+    document.addEventListener('click', (e) => {
+        if (navList.classList.contains('active') && !navList.contains(e.target)) {
+            closeMenu();
+        }
     });
-});
 
-closeBtn.addEventListener('click', () => {
-    lightbox.style.display = "none";
-});
+    function toggleMenu() {
+        menuToggle.classList.toggle('active');
+        navList.classList.toggle('active');
+        if (navList.classList.contains('active')) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = 'auto';
+        }
+    }
 
-lightbox.addEventListener('click', (e) => {
-    if (e.target !== lightboxImg) {
-        lightbox.style.display = "none";
+    function closeMenu() {
+        menuToggle.classList.remove('active');
+        navList.classList.remove('active');
+        body.style.overflow = 'auto';
     }
 });
