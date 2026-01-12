@@ -46,3 +46,38 @@ document.addEventListener('DOMContentLoaded', () => {
         body.style.overflow = '';
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.close');
+    const images = document.querySelectorAll('.fanart-image');
+
+    images.forEach(image => {
+        image.addEventListener('click', () => {
+            lightboxImg.src = image.src;
+            lightboxImg.alt = image.alt;
+            lightbox.classList.add('active');
+        });
+    });
+
+    const closeLightbox = () => {
+        lightbox.classList.remove('active');
+    };
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLightbox);
+    }
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+});
